@@ -33,7 +33,9 @@ btnTous.click()
 // creation des boutons filtres 
 
  // appel de l'api avec le chemin catégorie
-fetch("http://localhost:5678/api/categories")
+async function catégorie(){
+ let urlCategorie = "http://localhost:5678/api/categories"
+     await fetch(urlCategorie)
 .then(response => response.json())
 .then((categories) => {
     //boucle for pour chaque catégorie
@@ -46,23 +48,25 @@ fetch("http://localhost:5678/api/categories")
         
         //creation du boutton 
         let allFiltre = document.createElement("button")
-        allFiltre.classList=`btn btn${element.id}`
+        allFiltre.classList=`btnFiltre btn btn${element.id}`
         allFiltre.innerText=`${element.name}`
         
         //rattachement aux parents 
         divFiltre.appendChild(allFiltre)
 
     }})
-        
+}
+catégorie()
+
+// test pour afficher en console log le btn objet
+let test = document.querySelector(".btn1")
+console.log(test)
+      
+
+// changement de couleur bouton active filtre
 
 
-
-
-
-
-
-
-
+// filtrage btn 
 
 
 
