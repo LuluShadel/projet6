@@ -1,16 +1,23 @@
+
+// Evenement du bouton tous (par defaut)
+
+const btnTous= document.querySelector(".btnTous")
+
+btnTous.addEventListener("click",()=>{
+
 // affichage des images page d'acceuil
 fetch("http://localhost:5678/api/works")
 //reponse au format json = lisible 
 .then(response => response.json())
 .then((works)=>{
-
+    //div parent
+    let divWorks = document.querySelector(".gallery")
+        //efface avant chaque chargement
+    divWorks.innerHTML="";
+    //boucle permettant d'afficher les images 
     for(let i=0; i < works.length; i++){
         const element = works[i]
-        
-        // div parent 
-
-        let divWorks = document.querySelector(".gallery")
-
+     
         let allWorks = document.createElement("figure")
         allWorks.innerHTML=`
         <img src="${element.imageUrl}" alt="${element.title}">
@@ -19,9 +26,9 @@ fetch("http://localhost:5678/api/works")
         divWorks.appendChild(allWorks)
     }
 })
-
-
-
+})
+// permet d'afficher les images au chargement
+btnTous.click()
 
 // creation des boutons filtres 
 
