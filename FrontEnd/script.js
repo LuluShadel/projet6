@@ -8,7 +8,6 @@ const card = async () =>{
 
     await fetch(urlWork)
     .then((response)=>response.json())
-    //recuperation dans notre tableau du tableau provenant de l'api
     .then((data)=>{
         work = data
         
@@ -33,33 +32,30 @@ cardList()
 
 // creation des boutons filtres 
 
-const urlCategorie = "http://localhost:5678/api/categories";
+ // appel de l'api avec le chemin catégorie
+fetch("http://localhost:5678/api/categories")
+.then(response => response.json())
+.then((categories) => {
+    //boucle for pour chaque catégorie
+    for (let i = 0; i < categories.length; i++) {
+        const element = categories[i];
+        console.log(element);
 
-const filtre = async() =>{
-    await fetch (urlCategorie)
-    .then((response)=>response.json())
-    .then((data)=>{
-        work=data
+        // récuperation de la div parent 
+
+        let divFiltre = document.getElementById("filtres")
         
-    })
-}
+        let allFiltre = document.createElement("button")
+        allFiltre.classList=`btn btn${element.id}`
+        
+        allFiltre.innerText=`${element.name}`
+        
+        divFiltre.appendChild(allFiltre)
+
+    }})
+        
 
 
-//fonction qui ajout les filtres
-
-let divFiltre = document.getElementById("filtres")
-
-const filtreList = async()=>{
-    await filtre ()
-    divFiltre.innerHTML=work.map(
-       (liste)=>
-    
-        `<button class="btn btnFiltre${liste.id}">${liste.name}</button>`
-    ).join("")
-    
-}
-
-filtreList()
 
 // changement de couleur pour le filtre selectionner 
 
