@@ -1,19 +1,38 @@
 
 // Evenement du bouton tous (par defaut)
 
-const btnTous= document.querySelector(".btnTous")
+//div parent pour les works
+let gallery = document.querySelector(".gallery")
 
-btnTous.addEventListener("click",()=>{
+// variable contenant chemin vers api works 
+const urlWorks ="http://localhost:5678/api/works"
 
-// affichage des images page d'acceuil
-fetch("http://localhost:5678/api/works")
+//variable contenant chemin vers api catégorie 
+let urlCategorie = "http://localhost:5678/api/categories"
+
+
+
+// fonction recuperant l'api works
+async function appelApiWorks(){
+ 
+
 //reponse au format json = lisible 
-.then(response => response.json())
-.then((works)=>{
-    //div parent
-    let divWorks = document.querySelector(".gallery")
-        //efface avant chaque chargement
-    divWorks.innerHTML="";
+const response = await fetch(urlWorks)
+return await response.json();
+}
+
+
+async function appelApiCategorie(){
+const response = await fetch(urlCategorie)
+return await response.json();
+}
+
+
+// affichage des images
+async function affichageImage (){
+   let works= await appelApiWorks()
+   
+    
     //boucle permettant d'afficher les images 
     for(let i=0; i < works.length; i++){
         const element = works[i]
@@ -23,28 +42,26 @@ fetch("http://localhost:5678/api/works")
         <img src="${element.imageUrl}" alt="${element.title}">
         <figcaption>${element.title}</figcaption>
         `
-        divWorks.appendChild(allWorks)
+        gallery.appendChild(allWorks)
     }
-})
-})
-// permet d'afficher les images au chargement
-btnTous.click()
+}
+
 
 // creation des boutons filtres 
 
- // appel de l'api avec le chemin catégorie
-async function catégorie(){
- let urlCategorie = "http://localhost:5678/api/categories"
-     await fetch(urlCategorie)
-.then(response => response.json())
-.then((categories) => {
+async function afficherfiltre(){
+    let categories = await appelApiCategorie()
+    
+
+    let ligne1 = categories[1]
+    console.log(ligne1)
+    
     //boucle for pour chaque catégorie
     for (let i = 0; i < categories.length; i++) {
         const element = categories[i];
 
         // récuperation de la div parent 
-
-        let divFiltre = document.getElementById("filtres")
+       let divFiltre = document.getElementById("filtres")
         
         //creation du boutton 
         let allFiltre = document.createElement("button")
@@ -53,20 +70,43 @@ async function catégorie(){
         
         //rattachement aux parents 
         divFiltre.appendChild(allFiltre)
+        
+    }
+    // evenement au clic du bouton tous (par defaut)
+    const btnTous = document.querySelector(".btnTous")
+    btnTous.addEventListener("click",()=>{
+        // efface avant chaque affichage
+        gallery.innerHTML = ""
+        affichageImage()
 
-    }})
+    })
+
+
+    // filtrage 
+    function clearFilters() {
+
+        const filters = document.getElementById("filtres");
+        
+        const children = filters.children;
+        for(let i = 0; i < children.length; i++) {
+            const child = children[i];
+            child.classList.remove("active");
+        }
+    };
+
 }
-catégorie()
 
-// test pour afficher en console log le btn objet
-let test = document.querySelector(".btn1")
-console.log(test)
-      
-
-// changement de couleur bouton active filtre
+affichageImage()
+afficherfiltre()
 
 
-// filtrage btn 
+
+
+
+
+
+
+   
 
 
 
