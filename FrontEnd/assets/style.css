@@ -217,8 +217,9 @@ input[type="submit"]{
 	color: white;
 }
 
-.filtre_selected{
-	background-color: black;
+.active{
+	background-color: #1D6154;
+	color: white;
 }
 
 /***** page log in *****/ 
