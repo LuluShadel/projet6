@@ -189,6 +189,12 @@ input[type="submit"]{
 	cursor: pointer;
 }
 
+footer nav ul {
+	display: flex;
+	justify-content: flex-end;
+	margin: 2em
+}
+
 /*****bouton filtre***/
 
 #filtres{
@@ -222,7 +228,7 @@ input[type="submit"]{
 	color: white;
 }
 
-/***** page log in *****/ 
+/***** page login *****/ 
 
 #login{
 	display: flex;
@@ -231,11 +237,11 @@ input[type="submit"]{
 	margin-top: 150px;
 	
 }
-#login .champsSaisie{
+#champsSaisie{
 	width: 400px;
 }
 
-#login h2{
+#login h2 {
 	margin-bottom: 50px;
 }
 
@@ -255,11 +261,13 @@ input[type="submit"]{
 	
 }
 
-
-
-footer nav ul {
-	display: flex;
-	justify-content: flex-end;
-	margin: 2em
+#message {
+	color: red;
+	font-weight: bold;
+	text-align: center;
 }
+
+
+
+
 
