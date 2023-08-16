@@ -267,6 +267,9 @@ footer nav ul {
 	text-align: center;
 }
 
+.btnLogOut{
+	display: none;
+}
 
 
 
