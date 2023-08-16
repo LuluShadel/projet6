@@ -1,44 +1,54 @@
 
-const userMail = document.querySelector(".champsEmail");
+const userMail = document.getElementById("champsEmail");
 const password = document.getElementById("champsPassword");
 const form = document.getElementById("login")
-
-console.log(form)
-
+const message = document.getElementById("message")
 
 
-const data = {
-    email: userMail.value,
-    password: password.value,
-}
 
-console.log(data)
-
-
-    
-
-    form.addEventListener("submit",(event)=>{
+    form.addEventListener("submit",async function(event){
         event.preventDefault(); // Empêche l'envoi du formulaire par défaut
-    
-
+        const data = {
+            email: userMail.value,
+            password: password.value,
+        }
         const chargeUtile= JSON.stringify(data)
-        console.log(chargeUtile)
         
-fetch("http://localhost:5678/api/users/login",{
+
+
+const responseLogin = await fetch("http://localhost:5678/api/users/login",{
     method : 'post',
     headers: {
         'Content-Type': 'application/json'      
       },
       body:chargeUtile,
 })
-.then (response =>{
-    if (response.ok){
-        return response.json()
+
+    if (responseLogin.status==200){
+        const responseLoginJSON = await responseLogin.json()
+        
+        const  token = responseLoginJSON.token
+        const userId = responseLoginJSON.userId 
+        
+        const userToken = {
+            user :`${userId}`,
+            token : `${token}`
+        }
+
+        const valeurUserToken =JSON.stringify(userToken)
+
+        window.localStorage.setItem("userToken",valeurUserToken)
+
+        window.location.href="index.html"
     }
-    else{
-        throw new Error ("Erreur lors de la requête")
+    else if (responseLogin.status==404){
+        message.innerText="ERREUR Aucun utilisateur trouvé"
     }
-})
+    else if (responseLogin.status==401){
+        message.innerText="ERREUR mot de passe incorrecte"
+        
+    }
+
 })
 
 
