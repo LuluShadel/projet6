@@ -205,7 +205,40 @@ function modeEditionLogOut (){
         
 }
 
+
+// modal 
+
+const btnEdition = document.getElementById("btnEdition")
+const dialog = document.getElementById("modal")
+
+btnEdition.addEventListener("click",function(){
+    dialog.showModal()
+})
+
+
+// affichage des works modal galerie photo
+
+
+async function genererModalGallery (){
+const modalGallery = document.getElementById("modalGallery")
+modalGallery.innerHTML=""
+
+works = await appelApiWorks()
+
+for (let i =0;i<works.length;i++){
+
+    const element = works[i]
+    let allWorks = document.createElement("figure")
+        allWorks.innerHTML=`
+        <img src="${element.imageUrl}" alt="${element.title}">
+        `
+        modalGallery.appendChild(allWorks) 
+
+}
+
+}
    
+genererModalGallery()
 
 
 
