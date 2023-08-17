@@ -9,23 +9,31 @@
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
-	
+	<script src="https://kit.fontawesome.com/ae12630872.js" crossorigin="anonymous"></script>
+	<!--defer pour que le scipti soit lu après la page html-->
+<script src="script.js" defer></script>
 	
 </head>
 <body>
-	<!--defer pour que le scipti soit lu après la page html-->
-<script src="script.js" defer></script>
+	
 <header>
+	<div class="edition inactive">
+		<i class="fa-regular fa-pen-to-square"></i>
+		<p>Mode édition</p>
+		<button id="btnEdition"> publier les changements </button>
+	</div>
+
 	<h1>Sophie Bluel <span>Architecte d'inteérieur</span></h1>
 	<nav>
 		<ul>
 			<li><a href="index.html">projets</a></li>
 			<li><a href="#contact">contact</a></li>
-			<li><a href="login.html">login</a></li>
-			<li><a href="#" class="btnLogOut">logout</a></li>
+			<li><a href="login.html" class="btnLogin">login</a></li>
+			<li><a href="#" class="btnLogOut inactive">logout</a></li>
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
 	</nav>
+
 </header>
 <main>
 	<div id="introduction">
@@ -40,7 +48,13 @@
 		</article>
 	</div>
 	<section id="portfolio">
-		<h2>Mes Projets</h2>	
+		<div class="projets">
+		<h2>Mes Projets</h2>
+		<div class="modification inactive ">
+			<i class="fa-regular fa-pen-to-square"></i>
+			<a href="#">modifier</a>
+		</div>
+		</div>	
 		<div id="filtres">
 			<button class="btnFiltre btn btnTous">Tous</button>
 		</div>	
