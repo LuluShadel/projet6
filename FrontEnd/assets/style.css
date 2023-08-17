@@ -311,3 +311,64 @@ footer nav ul {
 .inactive{
 	display: none;
 }
+
+
+/***** modal*****/ 
+
+#modal {
+	padding: 0;
+	border: none;
+	border-radius: 10px;
+	width: clamp(500px, 70%, 700px);
+}
+
+#modal::backdrop {
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-nav {
+	height: 60px;
+	display: flex;
+	justify-content: space-between;
+	flex-direction: row-reverse;
+}
+
+#modal h3{
+	text-align: center;
+	font-weight: bold;
+	margin: 20px;
+}
+
+.close{
+	border: none;
+	background-color: white;
+}
+
+.modal-btns{
+	display: flex;
+	flex-direction: column;
+}
+
+#btnDeletePhoto{
+	color: red;
+	border: none;
+	background-color: white;
+	cursor: pointer;
+	margin-bottom: 20px;
+}
+
+#modalGallery{
+	display: flex;
+	flex-wrap: wrap;
+	gap: 20px;
+    margin-right: 50px;
+    margin-left: 50px;
+}
+
+
+#modalGallery img{
+	object-fit: cover;
+	height: 130px;
+	
+
+}
