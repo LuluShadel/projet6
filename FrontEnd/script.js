@@ -1,7 +1,8 @@
 
 let gallery = document.querySelector(".gallery")
 const urlWorks ="http://localhost:5678/api/works" 
-let urlCategorie ="http://localhost:5678/api/categories"
+const urlCategorie ="http://localhost:5678/api/categories"
+const urlDeleteWork ="http://localhost:5678/api/works/"
 
 // fonction recuperant l'api works
 async function appelApiWorks(){
@@ -15,10 +16,15 @@ async function appelApiCategorie(){
     return await response.json()
 }
 
+async function appelApiDeleteWork(){
+    const response = await fetch (urlDeleteWork)
+    return await response.json()
+}
+
 let works= []
 
 // affichage des images
-async function affichageImage (){
+async function affichageImage (works){
    works = await appelApiWorks()
     for(let i=0; i < works.length; i++){
         const element = works[i]
@@ -57,7 +63,7 @@ async function afficherfiltre(){
         gallery.innerHTML = ""
         clearFilters()
         btnTous.classList.add("active")
-        affichageImage()
+        affichageImage(works)
     })
 }
 
@@ -95,17 +101,7 @@ async function TriageFiltre (){
                 return work.category.id ===1  
             })
             // mise à jour du DOM en fonction du nouveau tableau filtrer
-            for(let i=0; i <filtreObjet.length ; i++){
-                const element = filtreObjet[i]
-             
-                let allWorks = document.createElement("figure")
-                allWorks.innerHTML=`
-                <img src="${element.imageUrl}" alt="${element.title}">
-                <figcaption>${element.title}</figcaption>
-                `
-                gallery.appendChild(allWorks)
-                
-            }
+            affichageImage(filtreObjet)
         }) 
         let btn2 = document.querySelector(".btn2")
 
@@ -223,22 +219,66 @@ async function genererModalGallery (){
 const modalGallery = document.getElementById("modalGallery")
 modalGallery.innerHTML=""
 
-works = await appelApiWorks()
+const modalWork = await appelApiWorks()
 
-for (let i =0;i<works.length;i++){
 
-    const element = works[i]
+for (let i =0;i<modalWork.length;i++){
+
+    const element = modalWork[i]
+    
     let allWorks = document.createElement("figure")
+    allWorks.setAttribute("class","figureModal")
         allWorks.innerHTML=`
+        <div class="divTrashIcon"></div>
         <img src="${element.imageUrl}" alt="${element.title}">
         `
-        modalGallery.appendChild(allWorks) 
+        modalGallery.appendChild(allWorks)
+    
+    let trashIcon = document.createElement("a")
+        trashIcon.innerHTML=`
+        <i class="fa-solid fa-trash-can"></i>
+        `
+        allWorks.appendChild(trashIcon)
 
+        trashIcon.addEventListener("click",function(e){
+            deleteWork(element.id) 
+            try {
+                while (allWorks.firstChild)
+                allWorks.removeChild(allWorks.firstChild); 
+            }
+            catch {
+                alert("ERROR")
+            }
+        })
 }
-
 }
    
 genererModalGallery()
+
+
+
+
+
+async function deleteWork(id){
+
+    //recuperation du token 
+    if (userToken !==null){
+        const tokenJson = JSON.parse(userToken)
+        
+        let token = tokenJson.token
+
+        if(confirm( `voulez vous vraiment supprimer le projet`)===true){
+            
+           await fetch(`http://localhost:5678/api/works/${id}`, {
+                    method: "DELETE",
+                    headers: {"Authorization": `Bearer ${token}`},
+                })    
+                
+             
+        }
+        
+    
+    }}
 
 
 
