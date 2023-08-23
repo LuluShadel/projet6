@@ -281,6 +281,20 @@ async function deleteWork(id){
     }}
 
 
+        // modal ajout photo 
+
+
+    const btnAjoutPhoto = document.getElementById("btnAjoutPhoto")
+    const modalAjout = document.getElementById("modalAjout")
+    console.log(modalAjout)
+
+        btnAjoutPhoto.addEventListener("click",function(){
+            modalAjout.showModal()
+        })
+
+
+
+
 
 
 
