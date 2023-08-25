@@ -92,35 +92,37 @@
 	</form>
 </dialog>
 <dialog id="modalAjout">
+	<form id="modalAjoutPhoto">
 		<div class="modal-nav">
-			<button class="close"><i class="fa-solid fa-xmark"></i></button>
+			<button class="close1"><i class="fa-solid fa-xmark"></i></button>
 		</div>
 		<h3>Ajout photo</h3>
 		<div>
 		<div id="zoneAjoutPhoto">
 			<i class="fa-regular fa-image"></i>
-			<input type="submit" id="photo" value="+ Ajouter une photo">
+			<label for="ajoutPhoto" class="labelAjoutPhoto">+ Ajouter une photo</label>
+			<input type="file" name="image" id="ajoutPhoto" value="+ Ajouter une photo">
 			<p>jpg,png : 4Mo max</p>
 
 		</div>
 		</div>
 		<div class="titre">
 			<p>Titre</p>
-			<input type="text" name="titre" id="ajoutTitre">
+			<input type="text" name="title" id="ajoutTitre">
 		</div>
-		<form class="catégorie">
-			<p>Catégorie</p>
-			<select class="choixCatégorie">
-			  <option value="objet">Objets</option>
-			  <option value="Appartement">Appartement</option>
-			  <option value="Hotel&Restaurant">Hotels et restaurants</option>
+		<form class="catégorie" name="category">
+			<p class="catégorieText">Catégorie</p>
+			<select id="choixCatégorie" name="category">
+			  <option value="1">Objets</option>
+			  <option value="2">Appartement</option>
+			  <option value="3">Hotels et restaurants</option>
 			</select>
 		  </form>
 		
 		<div class="modal-btns">
 			<input type="submit" id="validerPhoto" value="Valider">
 		</div>
-	
+	</form>
 </dialog>
 <footer>
 	<nav>
