@@ -286,13 +286,69 @@ async function deleteWork(id){
 
     const btnAjoutPhoto = document.getElementById("btnAjoutPhoto")
     const modalAjout = document.getElementById("modalAjout")
-    console.log(modalAjout)
 
         btnAjoutPhoto.addEventListener("click",function(){
             modalAjout.showModal()
         })
 
 
+        // fermeture de la modal 
+
+        const btnClose1 = document.querySelector(".close1")
+
+        btnClose1.addEventListener("click",function(){
+            modalAjout.close()
+        })
+
+
+            // ajouter des photos 
+
+            const photoAjouté = document.getElementById("ajoutPhoto");
+            const titreAjouté = document.getElementById("ajoutTitre");
+            const categorieAjouté = document.getElementById("choixCatégorie");
+            const form = document.getElementById("modalAjoutPhoto");
+            const btnValide = document.getElementById("validerPhoto")
+
+            
+            
+            btnValide.addEventListener("click", async function (event) {
+                event.preventDefault();
+                
+                if (photoAjouté.value !== "" && titreAjouté.value !== "" && categorieAjouté.value !== "") {
+                    if (userToken !== null) {
+                        const tokenJson = JSON.parse(userToken);
+                        let token = tokenJson.token;
+            
+                        if (confirm(`Voulez-vous vraiment ajouter le projet ?`)) {
+                            try {
+                                const response = await fetch(`http://localhost:5678/api/works`, {
+                                    method: "POST",
+                                    headers: { "Authorization": `Bearer ${token}` },
+                                    body: new FormData(form) // récupère directement les données du formulaire
+                                });
+                                for(let pair of new FormData(form).entries()){
+                                    console.log(pair[0]+','+typeof(pair[1]))  // pour regarder le type des elements envoyés
+                                }
+            
+                                if (response.ok) {
+                                    console.log("Succès");
+                                } else {
+                                    console.log("Erreur");
+                                }
+                            } catch (error) {
+                                console.error("Erreur lors de la requête :", error);
+                            }
+                        }
+                    }
+                } else {
+                    alert("Veuillez remplir tous les champs");
+                }
+            });
+
+            
+            
+
+            
 
 
 
