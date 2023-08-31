@@ -36,10 +36,8 @@ const responseLogin = await fetch("http://localhost:5678/api/users/login",{
         }
 
         const valeurUserToken =JSON.stringify(userToken)
-
-        window.localStorage.setItem("userToken",valeurUserToken)
-
-        window.location.href="index.html"
+         window.localStorage.setItem("userToken",valeurUserToken)
+         window.location.href="index.html"
     }
     else if (responseLogin.status==404){
         message.innerText="ERREUR Aucun utilisateur trouvé"
@@ -50,6 +48,8 @@ const responseLogin = await fetch("http://localhost:5678/api/users/login",{
     }
 
 })
+
+
 
 
 

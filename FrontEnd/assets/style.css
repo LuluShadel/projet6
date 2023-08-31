@@ -342,7 +342,8 @@ footer nav ul {
 	margin: 20px;
 }
 
-.close{
+.close,
+.close1{
 	border: none;
 	background-color: white;
 }
@@ -377,12 +378,12 @@ footer nav ul {
 
 
 
-.trashIcon{
+.fa-trash-can{
 	font-size: small;
 	color: white;
 	position: relative;
 	top: -110px;
-    left: -33px;
+    left: -28px;
 }
 
 .divTrashIcon{
@@ -405,6 +406,7 @@ footer nav ul {
 	align-items: center;
 	margin: auto;
 	width: 80%;
+	height: 250px;
 }
 
 
@@ -424,9 +426,11 @@ footer nav ul {
 }
 
 #ajoutTitre,
-.choixCatégorie{
+#choixCatégorie{
 	width: 80%;
 	height: 30px;
+	margin: auto;
+	display: flex;
 }
 
 .fa-image{
@@ -437,4 +441,31 @@ footer nav ul {
 
 #zoneAjoutPhoto p{
  margin-bottom: 20px;
+}
+
+.catégorieText{
+	text-align: center
+}
+
+#ajoutPhoto{
+	display: none;
+}
+
+#fichierSelectionner{
+	height: 250px;
+	position: absolute;
+	display: none;
+}
+#btnChoixFichier {
+	font-family: 'Syne';
+	font-weight: 700;
+	color: #306685;
+	background-color: #CBD6DC;
+	margin-right: 10px;
+	margin-bottom: 2em;
+	text-align: center;
+	border-radius: 60px ;
+	padding:8px;
+	cursor: pointer;
+	border: none;
 }
