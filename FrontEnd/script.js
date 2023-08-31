@@ -1,5 +1,5 @@
 
-let gallery = document.querySelector(".gallery")
+const gallery = document.querySelector(".gallery")
 
 const urlWorks ="http://localhost:5678/api/works" 
 const urlCategorie ="http://localhost:5678/api/categories"
@@ -102,7 +102,7 @@ function clearFilters() {
 
 async function TriageFiltre() {
     const works = await appelApiWorks();
-    const gallery = document.querySelector(".gallery");
+    
 
     function applyFilter(categoryId) {
         gallery.innerHTML = "";
@@ -228,19 +228,32 @@ async function genererModalGallery (){
             allWorks.appendChild(trashIcon)
     
             trashIcon.addEventListener("click",function(e){
+                
+                if(confirm("voulez vous vraiment supprimer le projet ?")){
                 deleteWork(element.id) 
                 try {
                     while (allWorks.firstChild)
                     allWorks.removeChild(allWorks.firstChild); 
+                    
+                    
                 }
+                
                 catch {
                     alert("ERROR")
                 }
+            }
+            else {
+                alert("Le projet n'a pas été supprimé")
+            }
             })
+            gallery.innerHTML=""
+            affichageImage()
     }
+    
     }
        
     genererModalGallery()
+    
 
 
 // fonction pour supprimer les works 
@@ -250,10 +263,7 @@ async function deleteWork(id) {
         const tokenJson = JSON.parse(userToken);
         const token = tokenJson.token;
 
-        // Demande de confirmation explicite
-        const confirmed = confirm("Voulez-vous vraiment supprimer le projet ?");
-
-        if (confirmed) {
+    
             try {
                 const response = await fetch(`http://localhost:5678/api/works/${id}`, {
                     method: "DELETE",
@@ -262,8 +272,7 @@ async function deleteWork(id) {
 
                 if (response.ok) {
                     console.log("Projet supprimé avec succès !");
-                    // Ici, vous pouvez mettre à jour l'interface utilisateur si nécessaire
-                    // Supprimer l'image ici si vous le souhaitez
+                    
                 } else {
                     console.error("Une erreur s'est produite lors de la suppression du projet.");
                 }
@@ -274,7 +283,7 @@ async function deleteWork(id) {
             console.log("Suppression annulée par l'utilisateur.");
         }
     }
-}
+
 
 
         // modal ajout photo 
