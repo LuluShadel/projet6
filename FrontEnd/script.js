@@ -193,10 +193,12 @@ const dialog = document.getElementById("modal")
 
 btnEdition.addEventListener("click",function(){
     dialog.showModal()
+    genererModalGallery()
 })
 
 btnEdition2.addEventListener("click",function(){
     dialog.showModal()
+    genererModalGallery()
 })
 
 
@@ -232,9 +234,11 @@ async function genererModalGallery (){
                 if(confirm("voulez vous vraiment supprimer le projet ?")){
                 deleteWork(element.id) 
                 try {
-                    while (allWorks.firstChild)
+                    while (allWorks.firstChild){
                     allWorks.removeChild(allWorks.firstChild); 
-                    
+                    }
+                    gallery.innerHTML=""
+                    affichageImage()
                     
                 }
                 
@@ -246,13 +250,14 @@ async function genererModalGallery (){
                 alert("Le projet n'a pas été supprimé")
             }
             })
-            gallery.innerHTML=""
-            affichageImage()
-    }
+            
     
     }
+    
+
+}
        
-    genererModalGallery()
+    
     
 
 
