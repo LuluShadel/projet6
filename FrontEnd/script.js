@@ -1,5 +1,6 @@
 
 let gallery = document.querySelector(".gallery")
+
 const urlWorks ="http://localhost:5678/api/works" 
 const urlCategorie ="http://localhost:5678/api/categories"
 const urlDeleteWork ="http://localhost:5678/api/works/"
@@ -78,207 +79,202 @@ function clearFilters() {
     }
 }
 
+const filteredWorks = works.filter(function (work) {
+    return work.category.id === categoryId;
+});
+
+for (const element of filteredWorks) {
+    const figure = document.createElement("figure");
+    figure.innerHTML = `
+        <img src="${element.imageUrl}" alt="${element.title}">
+        <figcaption>${element.title}</figcaption>
+    `;
+    gallery.appendChild(figure);
+}
 
 
+function clearFilters() {
+    const activeBtn = document.querySelector(".active");
+        if (activeBtn) {
+        activeBtn.classList.remove("active");
+        }
+}
 
-async function TriageFiltre (){
-    
-    works = await appelApiWorks()
+async function TriageFiltre() {
+    const works = await appelApiWorks();
+    const gallery = document.querySelector(".gallery");
 
-    //recuperation du btn objet
-    let btn1 = document.querySelector(".btn1")
+    function applyFilter(categoryId) {
+        gallery.innerHTML = "";
+        clearFilters();
+        const btn = document.querySelector(`.btn${categoryId}`);
+        btn.classList.add("active");
 
-        //ecoute du clic bouton objet
-        btn1.addEventListener("click",function (){
-            gallery.innerHTML = ""
-            //on efface la class active des bouton filtres
-            clearFilters()
-            // on ajoute active sur le bouton cliquer
-            btn1.classList.add("active")
-            //fonction qui filtre 
-            const filtreObjet= works.filter(function(work){
-            // retourne que si category.id=1 donc objet
-                return work.category.id ===1  
-            })
-            // mise à jour du DOM en fonction du nouveau tableau filtrer
-            affichageImage(filtreObjet)
-        }) 
-        let btn2 = document.querySelector(".btn2")
+        const filteredWorks = works.filter(function (work) {
+            return work.category.id === categoryId;
+        });
 
-        //ecoute du clic bouton objet
-        btn2.addEventListener("click",function (){
-            gallery.innerHTML = ""
-            clearFilters()
-            btn2.classList.add("active")
-            
-            const filtreAppartement= works.filter(function(work){
-            
-                return work.category.id ===2  
-            })
-            for(let i=0; i <filtreAppartement.length ; i++){
-                const element = filtreAppartement[i]
-             
-                let allWorks = document.createElement("figure")
-                allWorks.innerHTML=`
+        for (const element of filteredWorks) {
+            const figure = document.createElement("figure");
+            figure.innerHTML = `
                 <img src="${element.imageUrl}" alt="${element.title}">
                 <figcaption>${element.title}</figcaption>
-                `
-                gallery.appendChild(allWorks)
-                
-            }
-        }) 
-        let btn3 = document.querySelector(".btn3")
-
-        //ecoute du clic bouton objet
-        btn3.addEventListener("click",function (){
-            gallery.innerHTML = ""
-            clearFilters()
-            btn3.classList.add("active")
-            const filtreHotel= works.filter(function(work){
-            
-                return work.category.id ===3  
-            })
-            for(let i=0; i <filtreHotel.length ; i++){
-                const element = filtreHotel[i]
-             
-                let allWorks = document.createElement("figure")
-                allWorks.innerHTML=`
-                <img src="${element.imageUrl}" alt="${element.title}">
-                <figcaption>${element.title}</figcaption>
-                `
-                gallery.appendChild(allWorks)
-                
-            }
-        }) 
+            `;
+            gallery.appendChild(figure);
+        }
     }
 
+    function clearFilters() {
+        const filters = document.getElementById("filtres")
         
-    
+        const children = filters.children
+        for(let i = 0; i < children.length; i++) {
+            const child = children[i]
+            child.classList.remove("active")
+        }
+    }
+
+    const btn1 = document.querySelector(".btn1");
+    btn1.addEventListener("click", function () {
+        applyFilter(1);
+    });
+
+    const btn2 = document.querySelector(".btn2");
+    btn2.addEventListener("click", function () {
+        applyFilter(2);
+    });
+
+    const btn3 = document.querySelector(".btn3");
+    btn3.addEventListener("click", function () {
+        applyFilter(3);
+    });
+}
     affichageImage()
     afficherfiltre()
     TriageFiltre()
 
-
-
-
     // mode edition 
 
-
-    const userToken = window.localStorage.getItem("userToken")
-
-const btnLogOut = document.querySelector(".btnLogOut")
-const btnLogin = document.querySelector(".btnLogin")
-const divEdition = document.querySelector(".edition")
-const divFiltre = document.getElementById("filtres")
-const modification = document.querySelector(".modification")
-
-
+    const userToken = window.localStorage.getItem("userToken");
+    const btnLogOut = document.querySelector(".btnLogOut");
+    const btnLogin = document.querySelector(".btnLogin");
+    const divEdition = document.querySelector(".edition");
+    const divFiltre = document.getElementById("filtres");
+    const modification = document.querySelector(".modification");
     
-if (userToken !== null){
-    modeEditionLogin()
-
-    btnLogOut.addEventListener("click",function(){
-        modeEditionLogOut()
-    })
-}
-
-function modeEditionLogin(){
-    btnLogOut.classList.remove("inactive")
-    btnLogin.classList.add("inactive")
-    divEdition.classList.remove("inactive")
-    divFiltre.classList.add("inactive")
-    modification.classList.remove("inactive")
-
-}
-
-function modeEditionLogOut (){
-    window.localStorage.removeItem('userToken')
-        btnLogOut.classList.add("inactive")
-        btnLogin.classList.remove("inactive")
-        divEdition.classList.add("inactive")
-        divFiltre.classList.remove("inactive")
-        modification.classList.add("inactive")
-        
-}
+    if (userToken !== null) {
+        enableEditMode();
+        btnLogOut.addEventListener("click", disableEditMode);
+    }
+    
+    function enableEditMode() {
+        btnLogOut.classList.remove("inactive");
+        btnLogin.classList.add("inactive");
+        divEdition.classList.remove("inactive");
+        divFiltre.classList.add("inactive");
+        modification.classList.remove("inactive");
+    }
+    
+    function disableEditMode() {
+        window.localStorage.removeItem('userToken');
+        btnLogOut.classList.add("inactive");
+        btnLogin.classList.remove("inactive");
+        divEdition.classList.add("inactive");
+        divFiltre.classList.remove("inactive");
+        modification.classList.add("inactive");
+    }
 
 
 // modal 
 
 const btnEdition = document.getElementById("btnEdition")
+const btnEdition2 = document.querySelector(".btnEdition2")
 const dialog = document.getElementById("modal")
 
 btnEdition.addEventListener("click",function(){
     dialog.showModal()
 })
 
+btnEdition2.addEventListener("click",function(){
+    dialog.showModal()
+})
+
 
 // affichage des works modal galerie photo
 
-
 async function genererModalGallery (){
-const modalGallery = document.getElementById("modalGallery")
-modalGallery.innerHTML=""
-
-const modalWork = await appelApiWorks()
-
-
-for (let i =0;i<modalWork.length;i++){
-
-    const element = modalWork[i]
+    const modalGallery = document.getElementById("modalGallery")
+    modalGallery.innerHTML=""
     
-    let allWorks = document.createElement("figure")
-    allWorks.setAttribute("class","figureModal")
-        allWorks.innerHTML=`
-        <div class="divTrashIcon"></div>
-        <img src="${element.imageUrl}" alt="${element.title}">
-        `
-        modalGallery.appendChild(allWorks)
+    const modalWork = await appelApiWorks()
     
-    let trashIcon = document.createElement("a")
-        trashIcon.innerHTML=`
-        <i class="fa-solid fa-trash-can"></i>
-        `
-        allWorks.appendChild(trashIcon)
+    
+    for (let i =0;i<modalWork.length;i++){
+    
+        const element = modalWork[i]
+        
+        let allWorks = document.createElement("figure")
+        allWorks.setAttribute("class","figureModal")
+            allWorks.innerHTML=`
+            <div class="divTrashIcon"></div>
+            <img src="${element.imageUrl}" alt="${element.title}">
+            `
+            modalGallery.appendChild(allWorks)
+        
+        let trashIcon = document.createElement("a")
+            trashIcon.innerHTML=`
+            <i class="fa-solid fa-trash-can"></i>
+            `
+            allWorks.appendChild(trashIcon)
+    
+            trashIcon.addEventListener("click",function(e){
+                deleteWork(element.id) 
+                try {
+                    while (allWorks.firstChild)
+                    allWorks.removeChild(allWorks.firstChild); 
+                }
+                catch {
+                    alert("ERROR")
+                }
+            })
+    }
+    }
+       
+    genererModalGallery()
 
-        trashIcon.addEventListener("click",function(e){
-            deleteWork(element.id) 
+
+// fonction pour supprimer les works 
+async function deleteWork(id) {
+    // Récupération du token
+    if (userToken !== null) {
+        const tokenJson = JSON.parse(userToken);
+        const token = tokenJson.token;
+
+        // Demande de confirmation explicite
+        const confirmed = confirm("Voulez-vous vraiment supprimer le projet ?");
+
+        if (confirmed) {
             try {
-                while (allWorks.firstChild)
-                allWorks.removeChild(allWorks.firstChild); 
-            }
-            catch {
-                alert("ERROR")
-            }
-        })
-}
-}
-   
-genererModalGallery()
-
-
-
-
-
-async function deleteWork(id){
-
-    //recuperation du token 
-    if (userToken !==null){
-        const tokenJson = JSON.parse(userToken)
-        
-        let token = tokenJson.token
-
-        if(confirm( `voulez vous vraiment supprimer le projet`)===true){
-            
-           await fetch(`http://localhost:5678/api/works/${id}`, {
+                const response = await fetch(`http://localhost:5678/api/works/${id}`, {
                     method: "DELETE",
-                    headers: {"Authorization": `Bearer ${token}`},
-                })    
-                
-             
+                    headers: { "Authorization": `Bearer ${token}` },
+                });
+
+                if (response.ok) {
+                    console.log("Projet supprimé avec succès !");
+                    // Ici, vous pouvez mettre à jour l'interface utilisateur si nécessaire
+                    // Supprimer l'image ici si vous le souhaitez
+                } else {
+                    console.error("Une erreur s'est produite lors de la suppression du projet.");
+                }
+            } catch (error) {
+                console.error("Une erreur s'est produite :", error);
+            }
+        } else {
+            console.log("Suppression annulée par l'utilisateur.");
         }
-        
-    
-    }}
+    }
+}
 
 
         // modal ajout photo 
@@ -286,6 +282,7 @@ async function deleteWork(id){
 
     const btnAjoutPhoto = document.getElementById("btnAjoutPhoto")
     const modalAjout = document.getElementById("modalAjout")
+    
 
         btnAjoutPhoto.addEventListener("click",function(){
             modalAjout.showModal()
@@ -301,6 +298,33 @@ async function deleteWork(id){
         })
 
 
+
+        // changement du style de l'input files 
+
+        const inputImage = document.getElementById("ajoutPhoto")
+        const btnChoixFichier = document.getElementById("btnChoixFichier")
+        const imagePreview = document.getElementById("fichierSelectionner")
+
+        btnChoixFichier.addEventListener("click",function(){
+            inputImage.click()
+        })
+
+        inputImage.addEventListener("change",function(){
+            const selectedFile = inputImage.files[0]
+
+            // rajouter quoi faire du fichier 
+            if(selectedFile){
+                const reader = new FileReader();
+        
+        reader.onload = function(event) {
+            imagePreview.src = event.target.result;
+            imagePreview.style.display = "block"
+
+            }
+            reader.readAsDataURL(selectedFile)
+        }
+        })
+
             // ajouter des photos 
 
             const photoAjouté = document.getElementById("ajoutPhoto");
@@ -309,8 +333,6 @@ async function deleteWork(id){
             const form = document.getElementById("modalAjoutPhoto");
             const btnValide = document.getElementById("validerPhoto")
 
-            
-            
             btnValide.addEventListener("click", async function (event) {
                 event.preventDefault();
                 
@@ -325,18 +347,14 @@ async function deleteWork(id){
                                     method: "POST",
                                     headers: { "Authorization": `Bearer ${token}` },
                                     body: new FormData(form) // récupère directement les données du formulaire
-                                });
-                                for(let pair of new FormData(form).entries()){
-                                    console.log(pair[0]+','+typeof(pair[1]))  // pour regarder le type des elements envoyés
-                                }
-            
+                                })
                                 if (response.ok) {
-                                    console.log("Succès");
+                                    console.log("Succès")
                                 } else {
-                                    console.log("Erreur");
+                                    console.log("Erreur")
                                 }
                             } catch (error) {
-                                console.error("Erreur lors de la requête :", error);
+                                console.error("Erreur lors de la requête :", error)
                             }
                         }
                     }
