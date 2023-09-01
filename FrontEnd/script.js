@@ -93,13 +93,6 @@ for (const element of filteredWorks) {
 }
 
 
-function clearFilters() {
-    const activeBtn = document.querySelector(".active");
-        if (activeBtn) {
-        activeBtn.classList.remove("active");
-        }
-}
-
 async function TriageFiltre() {
     const works = await appelApiWorks();
     
@@ -319,7 +312,8 @@ async function deleteWork(id) {
         const btnChoixFichier = document.getElementById("btnChoixFichier")
         const imagePreview = document.getElementById("fichierSelectionner")
 
-        btnChoixFichier.addEventListener("click",function(){
+        btnChoixFichier.addEventListener("click",function(event){
+            event.preventDefault()
             inputImage.click()
         })
 
@@ -364,6 +358,9 @@ async function deleteWork(id) {
                                 })
                                 if (response.ok) {
                                     console.log("Succès")
+                                    form.reset()
+                                    imagePreview.src=""
+                                    imagePreview.style.display="none"
                                 } else {
                                     console.log("Erreur")
                                 }
