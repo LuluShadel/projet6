@@ -117,16 +117,6 @@ async function TriageFiltre() {
         }
     }
 
-    function clearFilters() {
-        const filters = document.getElementById("filtres")
-        
-        const children = filters.children
-        for(let i = 0; i < children.length; i++) {
-            const child = children[i]
-            child.classList.remove("active")
-        }
-    }
-
     const btn1 = document.querySelector(".btn1");
     btn1.addEventListener("click", function () {
         applyFilter(1);
@@ -230,8 +220,7 @@ async function genererModalGallery (){
                     while (allWorks.firstChild){
                     allWorks.removeChild(allWorks.firstChild); 
                     }
-                    gallery.innerHTML=""
-                    affichageImage()
+                    
                     
                 }
                 
@@ -270,6 +259,8 @@ async function deleteWork(id) {
 
                 if (response.ok) {
                     console.log("Projet supprimé avec succès !");
+                    gallery.innerHTML=""
+                    affichageImage()
                     
                 } else {
                     console.error("Une erreur s'est produite lors de la suppression du projet.");
@@ -361,6 +352,8 @@ async function deleteWork(id) {
                                     form.reset()
                                     imagePreview.src=""
                                     imagePreview.style.display="none"
+                                    gallery.innerHTML=""
+                                    affichageImage()
                                 } else {
                                     console.log("Erreur")
                                 }
