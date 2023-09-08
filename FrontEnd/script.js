@@ -52,10 +52,25 @@ async function afficherfiltre(){
         //creation du boutton 
         let allFiltre = document.createElement("button")
         allFiltre.classList=`btnFiltre btn btn${element.id}`
+        allFiltre.setAttribute("elementID",element.id)
         allFiltre.innerText=`${element.name}`
+
  
         divFiltre.appendChild(allFiltre)   
+
+
+        const btnFiltres = document.querySelectorAll(".btnFiltre")
+    btnFiltres.forEach(event => {
+        event.addEventListener("click",()=>{
+            const elementId = event.getAttribute("elementID")
+            applyFilter(elementId)
+        })
+        
+    });
+        
     }
+    // filtre au clic de chaque bouton 
+    
 
     // evenement au clic du bouton tous (par defaut)
     const btnTous = document.querySelector(".btnTous")
@@ -79,34 +94,24 @@ function clearFilters() {
     }
 }
 
-const filteredWorks = works.filter(function (work) {
-    return work.category.id === categoryId;
-});
-
-for (const element of filteredWorks) {
-    const figure = document.createElement("figure");
-    figure.innerHTML = `
-        <img src="${element.imageUrl}" alt="${element.title}">
-        <figcaption>${element.title}</figcaption>
-    `;
-    gallery.appendChild(figure);
-}
+afficherfiltre()
+affichageImage(works)
 
 
-async function TriageFiltre() {
-    const works = await appelApiWorks();
-    
 
-    function applyFilter(categoryId) {
+    async function applyFilter(elementId) {
+        const works = await appelApiWorks();
+
         gallery.innerHTML = "";
         clearFilters();
-        const btn = document.querySelector(`.btn${categoryId}`);
+        const btn = document.querySelector(`.btn${elementId}`);
         btn.classList.add("active");
 
         const filteredWorks = works.filter(function (work) {
-            return work.category.id === categoryId;
+            return work.category.id.toString() === elementId;
+            
         });
-
+        
         for (const element of filteredWorks) {
             const figure = document.createElement("figure");
             figure.innerHTML = `
@@ -115,26 +120,11 @@ async function TriageFiltre() {
             `;
             gallery.appendChild(figure);
         }
+
+        
     }
 
-    const btn1 = document.querySelector(".btn1");
-    btn1.addEventListener("click", function () {
-        applyFilter(1);
-    });
-
-    const btn2 = document.querySelector(".btn2");
-    btn2.addEventListener("click", function () {
-        applyFilter(2);
-    });
-
-    const btn3 = document.querySelector(".btn3");
-    btn3.addEventListener("click", function () {
-        applyFilter(3);
-    });
-}
-    affichageImage()
-    afficherfiltre()
-    TriageFiltre()
+    
 
     // mode edition 
 
